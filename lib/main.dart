@@ -6,12 +6,12 @@ import 'package:provider/provider.dart';
 
 void main() {
   runApp(
-    MultiProvider(
+      MultiProvider(
         providers: [
           ChangeNotifierProvider(create: (context) => CustomerViewModel(),)
         ],
-      child: const MyApp(),
-    )
+        child: const MyApp(),
+      )
   );
 }
 
@@ -28,9 +28,23 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
 
-      Size size=MediaQuery.of(context).size;
+    Size size=MediaQuery.of(context).size;
     List<String> menus=['Home','Customers','Products','Sales','Reports','Inventory','Prescriptions','Vendors'];
     return MaterialApp(
+      theme: ThemeData(
+          inputDecorationTheme: InputDecorationTheme(
+              border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(5.0),
+                  borderSide: BorderSide(
+                      color: Colors.grey.shade300,
+                      width: 1
+                  )
+              ),
+              alignLabelWithHint: true
+
+
+          )
+      ),
       home: Scaffold(
         body: Row(
           children: [
@@ -38,7 +52,7 @@ class _MyAppState extends State<MyApp> {
               flex: 1,
               child: Container(
                 decoration: BoxDecoration(
-                  color: Colors.grey.withValues(alpha: 0.1)
+                    color: Colors.grey.withValues(alpha: 0.1)
                 ),
                 child: ListView.builder(
                   itemBuilder: (context, index) => ListTile(

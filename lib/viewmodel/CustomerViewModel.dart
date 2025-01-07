@@ -8,9 +8,18 @@ class CustomerViewModel extends ChangeNotifier{
 
   List<CustomerData> customers=List.empty(growable: true);
   bool isLoading=false;
+  TextEditingController controllerId=TextEditingController(text: '-1');
   CustomerViewModel(){
 
   }
+
+
+ /* TextEditingController get controllerId => _controllerId;
+
+  set controllerId(TextEditingController value) {
+    _controllerId = value;
+    notifyListeners();
+  }*/
 
   void fetchCustomers() async{
     try{

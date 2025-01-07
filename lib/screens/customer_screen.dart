@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:optician_app/data/model/CustomerData.dart';
 import 'package:optician_app/screens/widgets/m_dataTable.dart';
+import 'package:optician_app/screens/widgets/m_textfield.dart';
 import 'package:optician_app/viewmodel/CustomerViewModel.dart';
 import 'package:provider/provider.dart';
 
@@ -23,17 +24,7 @@ class _CustomerScreenState extends State<CustomerScreen> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      theme: ThemeData(
-        inputDecorationTheme: InputDecorationTheme(
-          border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(5.0),
-            borderSide: BorderSide(
-              color: Colors.grey.shade300,
-              width: 1
-            )
-          )
-        )
-      ),
+
       home: Scaffold(
         body: Consumer<CustomerViewModel>(
           builder: (_,value, child) {
@@ -58,20 +49,8 @@ class _CustomerScreenState extends State<CustomerScreen> {
                                 // DataCell(Text('${e.value.updatedDate}')),
                                 DataCell(
                                     IconButton(
-                                      icon: Icon(Icons.edit), onPressed: () {
-                                      showDialog(context: context, builder: (context) {
-                                        return Column(
-                                          children: [
-                                            TextField(
-                                              enabled: false,
-                                              decoration: InputDecoration(
-                                                  hintText: 'Id',
-                                                  alignLabelWithHint: true
-                                              ),
-                                            )
-                                          ],
-                                        );
-                                      },);
+                                      icon: Icon(Icons.edit), onPressed: () async {
+                                      _showDialog(e.value,value);
                                     },
                                     )
                                 )
@@ -90,19 +69,28 @@ class _CustomerScreenState extends State<CustomerScreen> {
     );
   }
 
-  void _showDialog(CustomerData data){
+  void _showDialog(CustomerData data, CustomerViewModel value){
+    Size size= MediaQuery.of(context).size;
+    value.controllerId.text=data.id.toString();
     showDialog(context: context, builder: (context) {
-      return Column(
-        children: [
-          TextField(
-            enabled: false,
-            decoration: InputDecoration(
-              hintText: 'Id',
-              alignLabelWithHint: true
-            ),
-          )
-        ],
+      return Dialog(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(6.0)
+        ),
+        child: Container(
+          constraints: BoxConstraints(
+            maxWidth: size.width * 0.3,
+            maxHeight: size.height * 0.5
+          ),
+          padding: EdgeInsets.symmetric(vertical: 10,horizontal: 20),
+          child: Column(
+            children: [
+              mTextField(label: 'Id', controller: value.controllerId)
+            ],
+          ),
+        ),
       );
+
     },);
   }
 }
