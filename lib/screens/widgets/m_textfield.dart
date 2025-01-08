@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
 
 class mTextField extends StatelessWidget {
   final String label;
   final TextEditingController controller;
-  const mTextField({super.key, required this.label, required this.controller});
+  final bool? enabled;
+  const mTextField({super.key, required this.label, required this.controller, this.enabled});
 
   @override
   Widget build(BuildContext context) {
@@ -12,14 +14,14 @@ class mTextField extends StatelessWidget {
       children: [
         Text(label,
           style: Theme.of(context).textTheme.labelMedium,
+          textAlign: TextAlign.end,
         ),
         Gap(10),
-        Container(
-          constraints: BoxConstraints(
-            maxWidth: 200
-          ),
+        Expanded(
           child: TextField(
             controller: controller,
+            enabled: enabled,
+
           ),
         )
       ],
