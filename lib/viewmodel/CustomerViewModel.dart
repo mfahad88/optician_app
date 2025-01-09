@@ -8,16 +8,23 @@ class CustomerViewModel extends ChangeNotifier{
 
   List<CustomerData> customers=List.empty(growable: true);
   bool isLoading=false;
-  TextEditingController controllerId=TextEditingController(text: '-1');
-  TextEditingController controllerFname=TextEditingController(text: '');
-  TextEditingController controllerContactNo=TextEditingController(text: '');
-  TextEditingController controllerEmail=TextEditingController(text: '');
-  TextEditingController controllerAddress=TextEditingController(text: '');
-  TextEditingController controllerCreatedAt=TextEditingController(text: '');
-  TextEditingController controllerUpdatedAt=TextEditingController(text: '');
-  CustomerViewModel(){
+  // TextEditingController controllerId=TextEditingController(text: '-1');
+  // TextEditingController controllerFname=TextEditingController(text: '');
+  // TextEditingController controllerContactNo=TextEditingController(text: '');
+  // TextEditingController controllerEmail=TextEditingController(text: '');
+  // TextEditingController controllerAddress=TextEditingController(text: '');
+  // TextEditingController controllerCreatedAt=TextEditingController(text: '');
+  // TextEditingController controllerUpdatedAt=TextEditingController(text: '');
 
-  }
+  final Map<String,Map<bool,TextEditingController>> hints={
+    'FullName':{true:TextEditingController()},
+    'Contact No':{true:TextEditingController()},
+    'Email':{true:TextEditingController()},
+    'Address':{true:TextEditingController()},
+    'Created At':{false:TextEditingController()},
+    'Update At':{false:TextEditingController()},
+
+  };
 
 
  /* TextEditingController get controllerId => _controllerId;
@@ -47,11 +54,11 @@ class CustomerViewModel extends ChangeNotifier{
 
   }
 
-  Future<void> updateCustomer() async {
+  Future<void> updateCustomer(int? id) async {
    try{
      final _conn=await DatabaseManager().createConnection();
      Results? result= await _conn?.query('UPDATE customers SET full_name = ?,contact_number = ?,email = ?,address = ? WHERE id = ?',
-       [controllerFname.text,controllerContactNo.text,controllerEmail.text,controllerAddress.text,controllerId.text]
+       [hints['FullName']?.entries.first.value.text,hints['Contact No']?.entries.first.value.text,hints['Email']?.entries.first.value.text,hints['Address']?.entries.first.value.text,id]
      );
      fetchCustomers();
    }catch (e){
