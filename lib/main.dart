@@ -45,9 +45,7 @@ class _MyAppState extends State<MyApp> {
                     )
                 ),
                 alignLabelWithHint: true
-
-
-            )
+            ),
         ),
         home: Scaffold(
           body: Row(
