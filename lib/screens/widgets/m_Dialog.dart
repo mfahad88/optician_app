@@ -24,7 +24,7 @@ class mDialog extends StatelessWidget {
             maxHeight: size.height
         ),
         padding: EdgeInsets.symmetric(vertical: 10.r,horizontal: 20.r),
-        child: Column(
+        child: ListView(
           children: [
             Align(
               alignment: Alignment.topRight,

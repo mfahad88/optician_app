@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
+import 'package:optician_app/core/utils.dart';
 import 'package:optician_app/data/model/CustomerData.dart';
 import 'package:optician_app/screens/widgets/m_dataTable.dart';
 import 'package:optician_app/screens/widgets/m_Dialog.dart';
@@ -36,12 +37,12 @@ class CustomerScreen extends StatelessWidget {
                     FilledButton(
 
                         onPressed: () {
-                          value.hints['FullName']={true:TextEditingController(text: '')};
-                          value.hints['Contact No']={true:TextEditingController(text: '')};
-                          value.hints['Email']={true:TextEditingController(text: '')};
-                          value.hints['Address']={true:TextEditingController(text: '')};
-                          value.hints['Created At']={false:TextEditingController(text: '')};
-                          value.hints['Update At']={false:TextEditingController(text: '')};
+                          // value.hints['FullName']={true:TextEditingController(text: '')};
+                          // value.hints['Contact No']={true:TextEditingController(text: '')};
+                          // value.hints['Email']={true:TextEditingController(text: '')};
+                          // value.hints['Address']={true:TextEditingController(text: '')};
+                          // value.hints['Created At']={false:TextEditingController(text: '')};
+                          // value.hints['Update At']={false:TextEditingController(text: '')};
                           showDialog(
                             context: context,
                             builder: (context) {
@@ -65,25 +66,18 @@ class CustomerScreen extends StatelessWidget {
                   children: [
 
 
-                    mDataTable(columns: ['id','FullName','Address','ContactNumber','Email','Actions'],
-                        rows: value.customers.asMap().entries.map(
-                              (e) => DataRow(
-                              cells: [
-                                DataCell(Text('${e.value.id}')),
-                                DataCell(Text('${e.value.fullName}')),
-                                DataCell(Text('${e.value.address}')),
-                                DataCell(Text('${e.value.contactNumber}')),
-                                DataCell(Text('${e.value.email}')),
-                                DataCell(
+                    mDataTable(columns: value.columns.map((e) => Utils.convertToUpperCase(input: e),).toList(),
+                        rows: value.rows.map((f) => DataRow(
+
+                            cells: f.entries.map((e) {
+                              if(e.value!='edit') {
+                                return DataCell(Text(e.value.toString()));
+                              }else{
+                                return DataCell(
                                     IconButton(
                                       icon: Icon(Icons.edit),
                                       onPressed: () async {
-                                        value.hints['FullName']={true:TextEditingController(text: e.value.fullName)};
-                                        value.hints['Contact No']={true:TextEditingController(text: e.value.contactNumber)};
-                                        value.hints['Email']={true:TextEditingController(text: e.value.email)};
-                                        value.hints['Address']={true:TextEditingController(text: e.value.address)};
-                                        value.hints['Created At']={false:TextEditingController(text: e.value.createdDate.toString())};
-                                        value.hints['Update At']={false:TextEditingController(text: e.value.updatedDate.toString())};
+                                        value.populateModal(f);
                                         showDialog(
                                           context: context,
                                           builder: (context) {
@@ -92,7 +86,7 @@ class CustomerScreen extends StatelessWidget {
                                               size: Size(500.r, 500.r),
                                               hints: value.hints,
                                               onPressed: () {
-                                                value.updateCustomer(e.value.id);
+                                                // value.updateCustomer(e.value.id);
                                                 Navigator.of(context).pop();
                                               },
                                             );
@@ -101,9 +95,11 @@ class CustomerScreen extends StatelessWidget {
                                         // _showDialog(e.value,value);
                                       },
                                     )
-                                )
-                              ]
-                          ),
+                                );
+                              }
+                            },
+                            ).toList()
+                        ),
                         ).toList()
                     )
                   ],
