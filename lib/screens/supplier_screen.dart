@@ -1,28 +1,24 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
-import 'package:optician_app/data/model/CustomerData.dart';
-import 'package:optician_app/screens/widgets/m_dataTable.dart';
 import 'package:optician_app/screens/widgets/m_Dialog.dart';
-import 'package:optician_app/screens/widgets/m_textfield.dart';
-import 'package:optician_app/viewmodel/CustomerViewModel.dart';
+import 'package:optician_app/screens/widgets/m_dataTable.dart';
+import 'package:optician_app/viewmodel/SupplierVIewModel.dart';
 import 'package:provider/provider.dart';
 
-import '../core/database/database_manager.dart';
+import '../viewmodel/CustomerViewModel.dart';
 
-class CustomerScreen extends StatelessWidget {
-  const CustomerScreen({super.key});
+class SupplierScreen extends StatelessWidget {
+  const SupplierScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    CustomerViewModel viewModel=context.read();
-    viewModel.fetchCustomers();
+    SupplierViewModel viewModel=context.read();
+    viewModel.fetchSuppliers();
     return MaterialApp(
 
       home: Scaffold(
-        body: Consumer<CustomerViewModel>(
+        body: Consumer<SupplierViewModel>(
           builder: (_,value, child) {
             return value.isLoading?Center(
                 child: CircularProgressIndicator()
@@ -50,7 +46,7 @@ class CustomerScreen extends StatelessWidget {
                                 size: Size(500.r, 500.r),
                                 hints: value.hints,
                                 onPressed: () {
-                                  value.insertCustomer();
+                                  //value.insertCustomer();
                                   Navigator.of(context).pop();
                                 },
                               );
@@ -66,25 +62,29 @@ class CustomerScreen extends StatelessWidget {
                   children: [
 
 
-                    mDataTable(columns: ['id','FullName','Address','ContactNumber','Email','Actions'],
-                        rows: value.customers.asMap().entries.map(
+                    mDataTable(columns: value.columns,
+                        rows: value.suppliers.asMap().entries.map(
                               (e) => DataRow(
                               cells: [
                                 DataCell(Text('${e.value.id}')),
-                                DataCell(Text('${e.value.fullName}')),
-                                DataCell(Text('${e.value.address}')),
-                                DataCell(Text('${e.value.contactNumber}')),
+                                DataCell(Text('${e.value.name}')),
+                                DataCell(Text('${e.value.contact_number}')),
                                 DataCell(Text('${e.value.email}')),
+                                DataCell(Text('${e.value.address}')),
+                                DataCell(Text('${e.value.services_provided}')),
+
+
                                 DataCell(
                                     IconButton(
                                       icon: Icon(Icons.edit),
                                       onPressed: () async {
-                                        value.hints['FullName']={true:TextEditingController(text: e.value.fullName)};
-                                        value.hints['Contact No']={true:TextEditingController(text: e.value.contactNumber)};
+                                        value.hints['Id']={false:TextEditingController(text: e.value.id.toString())};
+                                        value.hints['Name']={true:TextEditingController(text: e.value.name)};
+                                        value.hints['Contact No']={true:TextEditingController(text: e.value.contact_number)};
                                         value.hints['Email']={true:TextEditingController(text: e.value.email)};
                                         value.hints['Address']={true:TextEditingController(text: e.value.address)};
-                                        value.hints['Created At']={false:TextEditingController(text: e.value.createdDate.toString())};
-                                        value.hints['Update At']={false:TextEditingController(text: e.value.updatedDate.toString())};
+                                        value.hints['Services Provided']={true:TextEditingController(text: e.value.services_provided)};
+
                                         showDialog(
                                           context: context,
                                           builder: (context) {
@@ -93,7 +93,7 @@ class CustomerScreen extends StatelessWidget {
                                               size: Size(500.r, 500.r),
                                               hints: value.hints,
                                               onPressed: () {
-                                                value.updateCustomer(e.value.id);
+                                                value.updateSupplier(e.value.id);
                                                 Navigator.of(context).pop();
                                               },
                                             );
@@ -118,4 +118,3 @@ class CustomerScreen extends StatelessWidget {
     );
   }
 }
-

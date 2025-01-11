@@ -51,21 +51,7 @@ class mDialog extends StatelessWidget {
               ),).toList(),
 
             ),
-            /*mTextField(label: 'Id',
-                controller: value.controllerId,
-                enabled: false,),
-              Gap(8.0.r),
-              mTextField(label: 'FullName', controller: value.controllerFname),
-              Gap(8.0.r),
-              mTextField(label: 'Contact Number', controller: value.controllerContactNo),
-              Gap(8.0.r),
-              mTextField(label: 'Email', controller: value.controllerEmail),
-              Gap(8.0.r),
-              mTextField(label: 'Address', controller: value.controllerAddress),
-              Gap(8.0.r),
-              mTextField(label: 'Created At', controller: value.controllerCreatedAt,enabled: false,),
-              Gap(8.0.r),
-              mTextField(label: 'Updated At', controller: value.controllerUpdatedAt,enabled: false,),*/
+
             Gap(10.0.r),
             FilledButton(
                 style: FilledButton.styleFrom(

@@ -7,14 +7,7 @@ import '../data/model/CustomerData.dart';
 class CustomerViewModel extends ChangeNotifier{
 
   List<CustomerData> customers=List.empty(growable: true);
-  bool isLoading=false;
-  // TextEditingController controllerId=TextEditingController(text: '-1');
-  // TextEditingController controllerFname=TextEditingController(text: '');
-  // TextEditingController controllerContactNo=TextEditingController(text: '');
-  // TextEditingController controllerEmail=TextEditingController(text: '');
-  // TextEditingController controllerAddress=TextEditingController(text: '');
-  // TextEditingController controllerCreatedAt=TextEditingController(text: '');
-  // TextEditingController controllerUpdatedAt=TextEditingController(text: '');
+  bool isLoading=true;
 
   final Map<String,Map<bool,TextEditingController>> hints={
     'FullName':{true:TextEditingController()},
@@ -26,13 +19,6 @@ class CustomerViewModel extends ChangeNotifier{
 
   };
 
-
- /* TextEditingController get controllerId => _controllerId;
-
-  set controllerId(TextEditingController value) {
-    _controllerId = value;
-    notifyListeners();
-  }*/
 
   void fetchCustomers() async{
     try{
@@ -52,6 +38,19 @@ class CustomerViewModel extends ChangeNotifier{
       notifyListeners();
     }
 
+  }
+
+  Future<void> insertCustomer() async {
+    try{
+      final _conn=await DatabaseManager().createConnection();
+      Results? result= await _conn?.query('INSERT INTO customers (full_name,contact_number,email,address) VALUES (?,?,?,?)',[hints['FullName']?.values.first.text,hints['Contact No']?.values.first.text,hints['Email']?.values.first.text,hints['Address']?.values.first.text]);
+      print('Result: $result');
+      fetchCustomers();
+    }catch (e){
+      print('Insert Customer: $e');
+    }finally{
+      notifyListeners();
+    }
   }
 
   Future<void> updateCustomer(int? id) async {

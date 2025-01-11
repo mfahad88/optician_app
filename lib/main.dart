@@ -2,14 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:optician_app/core/database/database_manager.dart';
 import 'package:optician_app/screens/customer_screen.dart';
+import 'package:optician_app/screens/supplier_screen.dart';
 import 'package:optician_app/viewmodel/CustomerViewModel.dart';
+import 'package:optician_app/viewmodel/SupplierVIewModel.dart';
 import 'package:provider/provider.dart';
 
 void main() {
   runApp(
       MultiProvider(
         providers: [
-          ChangeNotifierProvider(create: (context) => CustomerViewModel(),)
+          ChangeNotifierProvider(create: (context) => CustomerViewModel(),),
+          ChangeNotifierProvider(create: (context) => SupplierViewModel(),)
         ],
         child: const MyApp(),
       )
@@ -72,7 +75,7 @@ class _MyAppState extends State<MyApp> {
               Expanded(
                   flex:4,
                   child:
-                  selectedScreen=='customers'.toLowerCase()?CustomerScreen():Text('Screen under development')
+                  selectedScreen=='customers'.toLowerCase()?CustomerScreen():selectedScreen=='Vendors'.toLowerCase()?SupplierScreen():Text('Screen under development')
               )
             ],
           ),
