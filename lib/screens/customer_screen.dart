@@ -6,6 +6,7 @@ import 'package:gap/gap.dart';
 import 'package:optician_app/data/model/CustomerData.dart';
 import 'package:optician_app/screens/widgets/m_dataTable.dart';
 import 'package:optician_app/screens/widgets/m_Dialog.dart';
+import 'package:optician_app/screens/widgets/m_search_bar.dart';
 import 'package:optician_app/screens/widgets/m_textfield.dart';
 import 'package:optician_app/viewmodel/CustomerViewModel.dart';
 import 'package:provider/provider.dart';
@@ -29,10 +30,14 @@ class CustomerScreen extends StatelessWidget {
             ):Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Gap(10.r),
+
                 Row(
                   children: [
                     Gap(10.r),
+                    mSearchBar(
+                      onChanged: (v) =>value.searchCustomer(v) ,
+                    ),
+                    Gap(50.r),
                     FilledButton(
 
                         onPressed: () {

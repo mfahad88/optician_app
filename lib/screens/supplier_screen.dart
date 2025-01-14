@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
 import 'package:optician_app/screens/widgets/m_Dialog.dart';
 import 'package:optician_app/screens/widgets/m_dataTable.dart';
+import 'package:optician_app/screens/widgets/m_search_bar.dart';
 import 'package:optician_app/viewmodel/SupplierVIewModel.dart';
 import 'package:provider/provider.dart';
 
@@ -29,15 +30,15 @@ class SupplierScreen extends StatelessWidget {
                 Row(
                   children: [
                     Gap(10.r),
+                    mSearchBar(
+                      onChanged: (v) =>value.searchSupplier(v) ,
+                    ),
+                    Gap(50.r),
                     FilledButton(
 
                         onPressed: () {
-                          value.hints['FullName']={true:TextEditingController(text: '')};
-                          value.hints['Contact No']={true:TextEditingController(text: '')};
-                          value.hints['Email']={true:TextEditingController(text: '')};
-                          value.hints['Address']={true:TextEditingController(text: '')};
-                          value.hints['Created At']={false:TextEditingController(text: '')};
-                          value.hints['Update At']={false:TextEditingController(text: '')};
+                          value.clearHints();
+
                           showDialog(
                             context: context,
                             builder: (context) {
@@ -46,7 +47,7 @@ class SupplierScreen extends StatelessWidget {
                                 size: Size(500.r, 500.r),
                                 hints: value.hints,
                                 onPressed: () {
-                                  //value.insertCustomer();
+                                  value.insertSupplier();
                                   Navigator.of(context).pop();
                                 },
                               );

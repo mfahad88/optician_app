@@ -8,7 +8,7 @@ class SupplierViewModel extends ChangeNotifier{
   List<String> columns =['Id','Name','Contact No','Email', 'Address', 'Services Provided','Actions'];
   List<SupplierData> suppliers=List.empty(growable: true);
   bool isLoading=true;
-  final Map<String,Map<bool,TextEditingController>> hints={
+   Map<String,Map<bool,TextEditingController>> hints={
     'Id':{false:TextEditingController()},
     'Name':{true:TextEditingController()},
     'Contact No':{true:TextEditingController()},
@@ -55,6 +55,42 @@ class SupplierViewModel extends ChangeNotifier{
       print('Update Customer: $e');
     }finally{
       notifyListeners();
+    }
+  }
+
+  void clearHints() {
+    hints.clear();
+    hints={
+      'Name':{true:TextEditingController()},
+      'Contact No':{true:TextEditingController()},
+      'Email':{true:TextEditingController()},
+      'Address':{true:TextEditingController()},
+      'Services Provided':{true:TextEditingController()},
+    };
+  }
+
+  Future<void> insertSupplier() async {
+
+      try{
+        final _conn=await DatabaseManager().createConnection();
+        Results? result= await _conn?.query('INSERT INTO vendors (name,contact_number,email,address,services_provided) VALUES (?,?,?,?,?)',
+            [hints['Name']?.entries.first.value.text,hints['Contact No']?.entries.first.value.text,hints['Email']?.entries.first.value.text,hints['Address']?.entries.first.value.text,hints['Services Provided']?.entries.first.value.text]);
+        print('Result: $result');
+        fetchSuppliers();
+      }catch (e){
+        print('Insert Customer: $e');
+      }finally{
+        notifyListeners();
+      }
+
+  }
+
+  void searchSupplier(String v) {
+    if(v.isNotEmpty){
+    suppliers=suppliers.where((element) => element.toString().toLowerCase().contains(v.toLowerCase()),).toList();
+    notifyListeners();
+    }else{
+      fetchSuppliers();
     }
   }
 }

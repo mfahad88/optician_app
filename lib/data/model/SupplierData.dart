@@ -17,4 +17,9 @@ class SupplierData{
       this.services_provided,
       this.created_at,
       this.updated_at});
+
+  @override
+  String toString() {
+    return 'SupplierData{name: $name, contact_number: $contact_number, email: $email, address: $address, services_provided: $services_provided}';
+  }
 }

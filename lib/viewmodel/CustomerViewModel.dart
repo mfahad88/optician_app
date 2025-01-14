@@ -66,4 +66,13 @@ class CustomerViewModel extends ChangeNotifier{
      notifyListeners();
    }
   }
+
+  void searchCustomer(String v) {
+    if(v.isNotEmpty){
+      customers=customers.where((element) => element.toString().toLowerCase().contains(v.toLowerCase()),).toList();
+      notifyListeners();
+    }else{
+      fetchCustomers();
+    }
+  }
 }
